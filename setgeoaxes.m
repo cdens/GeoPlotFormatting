@@ -21,7 +21,7 @@ function [newlonrange,newlatrange] = setgeoaxes(curaxes,lonrange,latrange,axisto
 xlim(curaxes,lonrange)
 ylim(curaxes,latrange)
 
-plotratio = get(curaxes,'plotboxaspectratio');
+plotratio = get(curaxes,'DataAspectRatio');
 yoverxratio = plotratio(2)/plotratio(1);
 
 %axis intervals, center values
@@ -34,8 +34,8 @@ meanlon = mean(lonrange);
 lonoverlatratio = cos(meanlat*pi/180);
 
 %find dlat such that dlon/dlat = lonoverlatratio, corrected for plot aspect ratio
-dlatnew = dlonold/lonoverlatratio*yoverxratio;
-dlonnew = dlatold*lonoverlatratio/yoverxratio;
+dlatnew = dlonold*(lonoverlatratio/yoverxratio);
+dlonnew = dlatold*(lonoverlatratio/yoverxratio)^-1;
 
 newlonrange = [meanlon-dlonnew,meanlon+dlonnew];
 newlatrange = [meanlat-dlatnew,meanlat+dlatnew];
